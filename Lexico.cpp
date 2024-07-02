@@ -111,14 +111,4 @@ std::vector<Token> tokenize(const std::string& query) {
     return tokens;
 }
 
-int main() {
-    std::string query = "SELECT name, age FROM users WHERE age >= 21 ORDER BY name DESC";
-    std::vector<Token> tokens = tokenize(query);
-    
-    std::cout << "Matriz de tokens:" << std::endl;
-    for (const auto& token : tokens) {
-        std::cout << token.value << " - " << tokenNames[token.type] << std::endl;
-    }
-    
-    return 0;
-}
+
