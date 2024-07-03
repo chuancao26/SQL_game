@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Parser.cpp"
+#include "Vista.cpp"
 using namespace std;
 int main()
 {
@@ -11,9 +12,13 @@ int main()
   {
     std::cout << token.value << " - " << tokenNames[token.type] << std::endl;
   }
+  // Parser
   Parser parser(tokens);
   Node* ast = parser.parse();
-  
   parser.print_ast(ast);
+  
+  // view Game
+  Vista view;
+  view.ejecutar();
   return 0;
 }
