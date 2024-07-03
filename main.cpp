@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Lexico.cpp"
-#include "Sintactico.cpp"
+#include "Parser.cpp"
+using namespace std;
 int main()
 {
   std::string query = "SELECT name, age FROM users WHERE age >= 21 ORDER BY name DESC";
@@ -14,6 +14,6 @@ int main()
   Parser parser(tokens);
   Node* ast = parser.parse();
   
-  print_ast(ast);
+  parser.print_ast(ast);
   return 0;
 }
