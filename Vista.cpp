@@ -15,7 +15,3 @@ bool Vista::getLeftButton()
 {
   return leftButton;
 }
-sf::RenderWindow& Vista::getWindow()
-{
-  return window;
-}

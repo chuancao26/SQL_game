@@ -1,17 +1,10 @@
-#include <iostream>
-#include "Vista.h"
-#include "Player.h"
-class Controller
+#include "Controller.h"
+Controller::Controller()
 {
-  private:
-    Vista view;
-    Player player;
-    sf::RenderWindow& window;
-  public:
-    Controller();
-    void run()
-    {
-      while(view.getWindow().isOpen())
+}
+void Controller::run()
+{
+      while(view.window.isOpen())
       {
 	view.update();
 	if(view.getRightButton())
@@ -22,13 +15,12 @@ class Controller
 	{
 	  player.moveLeft();
 	}
-      }
       renderizar();
-    }
-    void renderizar()
-    {
-      view.getWindow().clear();
-      player.draw(view.getWindow());
-      view.getWindow().display();
-    }
-};
+      }
+}
+void Controller::renderizar()
+{
+  view.window.clear();
+  player.draw(view.window);
+  view.window.display();
+}

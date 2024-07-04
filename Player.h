@@ -1,8 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <iostream>
 #include <SFML/Graphics.hpp>
-using namespace std;
 class Player
 {
   private:
