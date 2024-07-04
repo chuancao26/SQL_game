@@ -3,4 +3,4 @@ game_sql
 makefile
 test
 main.o
-
+*.o
