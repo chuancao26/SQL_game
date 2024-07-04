@@ -4,3 +4,6 @@ makefile
 test
 main.o
 *.o
+pruebas
+pruebas.cpp
+main
