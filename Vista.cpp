@@ -1,21 +1,21 @@
 #include "Vista.h"
-Vista::Vista(): window(sf::VideoMode(1280, 720), "SQL"), shape(100.f)
+Vista::Vista(): window(sf::VideoMode(1280, 720), "SQL") 
 {
-  shape.setFillColor(sf::Color::Green);
 }
-void Vista::ejecutar()
+void Vista::update()
 {
-  while (window.isOpen())
-  {
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-      if (event.type == sf::Event::Closed)
-        window.close();
-    }
-    window.clear();
-    window.draw(shape);
-    window.display();
-  }
+  rightButton = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+  leftButton = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
 }
-
+bool Vista::getRightButton()
+{
+  return rightButton;
+}
+bool Vista::getLeftButton()
+{
+  return leftButton;
+}
+sf::RenderWindow& Vista::getWindow()
+{
+  return window;
+}

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Parser.cpp"
-#include "Vista.cpp"
+#include "Controller.cpp"
 using namespace std;
 int main()
 {
@@ -18,7 +18,7 @@ int main()
   parser.print_ast(ast);
   
   // view Game
-  Vista view;
-  view.ejecutar();
+  Controller controller;
+  controller.run();
   return 0;
 }
