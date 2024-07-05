@@ -1,5 +1,5 @@
 #include "Player.h"
-Player::Player(): vel(1.0f), x(600), y(600)
+Player::Player(): vel(10), x(600), y(600)
 {
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::White);
@@ -7,12 +7,14 @@ Player::Player(): vel(1.0f), x(600), y(600)
 }
 void Player::moveLeft()
 {
-  x -= vel;
+  if (x > 0)
+    x -= vel;
   shape.setPosition(x, y);
 }
 void Player::moveRight()
 {
-  x += vel;
+  if(x < 1280)
+    x += vel;
   shape.setPosition(x, y);
 }
 void Player::draw(sf::RenderWindow& window)

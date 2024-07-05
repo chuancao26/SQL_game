@@ -1,6 +1,7 @@
 #include "Vista.h"
 Vista::Vista(): window(sf::VideoMode(1280, 720), "SQL") 
 {
+  window.setFramerateLimit(60);
 }
 void Vista::update()
 {
