@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Parser.cpp"
 #include "Controller.cpp"
+//#include "Controller2.cpp"
 using namespace std;
 int main()
 {
@@ -20,5 +21,8 @@ int main()
   // view Game
   Controller controller;
   controller.run();
+  int n = 2; // Define el tamaño de la cuadrícula
+  Controller2 controller2(n);
+  controller2.run();
   return 0;
 }

@@ -3,6 +3,7 @@
 #include "Vista.cpp"
 #include "Player.cpp"
 #include "Bloque.cpp"
+
 class Controller
 {
   private:
@@ -15,5 +16,6 @@ class Controller
     Controller();
     void run();
     void renderizar();
+    
 };
 #endif
