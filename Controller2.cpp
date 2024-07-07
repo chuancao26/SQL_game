@@ -45,7 +45,7 @@ Controller2::Controller2(int n)
       imgMoved(n * n, false),
       originalPositions(n * n) {
 
-    fondoOrdenTexture->loadFromFile("fondoOrden.png");
+    fondoOrdenTexture->loadFromFile("img/fondoOrden.png");
     fondoOrdenSprite->setTexture(*fondoOrdenTexture);
 
     for (int i = 0; i < n * n; ++i) {
@@ -54,7 +54,7 @@ Controller2::Controller2(int n)
         imgPalabraTextures.push_back(std::make_unique<sf::Texture>());
         imgPalabraSprites.push_back(std::make_unique<sf::Sprite>());
 
-        imgOrdenTextures[i]->loadFromFile("imgOrden" + std::to_string(i + 1) + ".png");
+        imgOrdenTextures[i]->loadFromFile("img/imgOrden" + std::to_string(i + 1) + ".png");
         imgOrdenSprites[i]->setTexture(*imgOrdenTextures[i]);
         imgOrdenSprites[i]->setScale(250.0f / imgOrdenTextures[i]->getSize().x, 200.0f / imgOrdenTextures[i]->getSize().y);
         
@@ -63,11 +63,11 @@ Controller2::Controller2(int n)
         imgOrdenSprites[i]->setPosition(x, y);
         originalPositions[i] = imgOrdenSprites[i]->getPosition();
         
-        imgPalabraTextures[i]->loadFromFile("imgPalabra" + std::to_string(i + 1) + ".png");
+        imgPalabraTextures[i]->loadFromFile("img/imgPalabra" + std::to_string(i + 1) + ".png");
         imgPalabraSprites[i]->setTexture(*imgPalabraTextures[i]);
     }
 
-    tablaTexture->loadFromFile("Tabla.png");
+    tablaTexture->loadFromFile("img/Tabla.png");
     tablaSprite->setTexture(*tablaTexture);
     tablaSprite->setPosition(window.getSize().x * 2 / 3, 100);
 
