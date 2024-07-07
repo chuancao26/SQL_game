@@ -16,6 +16,5 @@ class Controller
     Controller();
     void run();
     void renderizar();
-    
 };
 #endif

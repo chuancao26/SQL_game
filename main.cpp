@@ -21,8 +21,8 @@ int main()
   // view Game
   Controller controller;
   controller.run();
-  int n = 2; // Define el tamaño de la cuadrícula
-  Controller2 controller2(n);
-  controller2.run();
+  //int n = 2; // Define el tamaño de la cuadrícula
+  //Controller2 controller2(n);
+  //controller2.run();
   return 0;
 }
