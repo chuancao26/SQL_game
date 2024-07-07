@@ -10,19 +10,22 @@ Bloque::Bloque(float inicialX, float inicialY):vel(5), x(inicialX), y(inicialY),
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::Red);
   shape.setPosition(x, y);
+  isDibujado = d(gen);
 }
 void Bloque::gravity()
 {
   y += vel;
-  if(y >= 735)
+  if(y >= 720)
   {
-    y = -20;
+    y = 0;
+    isDibujado = d(gen);
   }
   shape.setPosition(x, y);
 }
 void Bloque::draw(sf::RenderWindow& window)
 {
-  window.draw(shape);
+  if (isDibujado)
+    window.draw(shape);
 }
 float Bloque::getY()
 {

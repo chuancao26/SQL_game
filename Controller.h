@@ -3,18 +3,18 @@
 #include "Vista.cpp"
 #include "Player.cpp"
 #include "Bloque.cpp"
-
+#include "Camarero.cpp"
 class Controller
 {
   private:
     Vista view;
     Player player;
-    vector<Bloque*> bloques;
-    int cantBloques;
-    sf::Clock clock;
+    Camarero camarero;
+
   public:
     Controller();
     void run();
     void renderizar();
+    void update();
 };
 #endif

@@ -20,3 +20,4 @@ class Bloque
     void draw(sf::RenderWindow&);
     float getY();
 };
+#endif

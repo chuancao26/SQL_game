@@ -1,6 +1,5 @@
 #ifndef CAMARERO_H
 #define CAMARERO_H
-#include <random>
 class Camarero
 {
   private:
@@ -9,11 +8,9 @@ class Camarero
     int cantCol;
     int limiteX;
     int limiteY;
-    random_device rd;
-    mt19937 gen;
-    bernoulli_distribution d;
   public:
-    Camarero();
-    void draw();
+    Camarero(int, int);
+    void draw(sf::RenderWindow&);
+    void update();
 };
 #endif
