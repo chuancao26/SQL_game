@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Parser.cpp"
+#include "Semantico.cpp"
 #include "Controller.cpp"
 //#include "Controller2.cpp"
 using namespace std;
@@ -18,11 +18,24 @@ int main()
   Node* ast = parser.parse();
   parser.print_ast(ast);
   
+  if (validate_ast(ast)) {
+      std::cout << "La consulta es semanticamente valida." << std::endl;
+  } else {
+      std::cout << "La consulta tiene errores semanticos." << std::endl;
+  }
+
+
   // view Game
   Controller controller;
   controller.run();
+<<<<<<< HEAD
   //int n = 2; // Define el tamaño de la cuadrícula
   //Controller2 controller2(n);
   //controller2.run();
+=======
+  /*int n = 2; // Define el tamaño de la cuadrícula
+  Controller2 controller2(n);
+  controller2.run();*/
+>>>>>>> 49111f7f952be1e03a5ab5917da61edd061c2986
   return 0;
 }
