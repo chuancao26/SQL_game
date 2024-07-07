@@ -23,19 +23,11 @@ int main()
   } else {
       std::cout << "La consulta tiene errores semanticos." << std::endl;
   }
-
-
   // view Game
   Controller controller;
   controller.run();
-<<<<<<< HEAD
   //int n = 2; // Define el tamaño de la cuadrícula
   //Controller2 controller2(n);
   //controller2.run();
-=======
-  /*int n = 2; // Define el tamaño de la cuadrícula
-  Controller2 controller2(n);
-  controller2.run();*/
->>>>>>> 49111f7f952be1e03a5ab5917da61edd061c2986
   return 0;
 }
