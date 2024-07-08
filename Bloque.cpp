@@ -5,7 +5,7 @@ Bloque::Bloque():vel(5)
   shape.setFillColor(sf::Color::Red);
   shape.setPosition(x, y);
 }
-Bloque::Bloque(float inicialX, float inicialY):vel(5), x(inicialX), y(inicialY), gen(rd()), d(0.3)
+Bloque::Bloque(float inicialX, float inicialY):vel(5), x(inicialX), y(inicialY), gen(rd()), d(0.4)
 {
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::Red);
