@@ -12,8 +12,9 @@ void Controller::update()
     {
       player.moveLeft();
     }
+    float deltaTime = clock.restart().asSeconds();
     view.update();
-    camarero.update();
+    camarero.update(deltaTime);
 }
 void Controller::run()
 {

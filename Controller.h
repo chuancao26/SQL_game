@@ -10,6 +10,7 @@ class Controller
     Vista view;
     Player player;
     Camarero camarero;
+    sf::Clock clock;
 
   public:
     Controller();

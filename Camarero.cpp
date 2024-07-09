@@ -1,32 +1,51 @@
 #include "Camarero.h" 
-Camarero::Camarero(int limiteX, int limiteY): cantCol(4), cantFil(3), bloques(3, vector<Bloque*>(4)), limiteX(limiteX), limiteY(limiteY)
+Camarero::Camarero(int limiteX, int limiteY): limiteX(limiteX), limiteY(limiteY),spawnTime(0), srand(static_cast<unsigned>(std::time(nullptr)))
 {
-  for(int i = 0; i < cantFil; i++)
-  {
-    for(int j = 0; j < cantCol; j++)
-    {
-      bloques[i][j] = new Bloque((j + 0.1) * 1.2 * (limiteX / cantCol), i * -limiteY / cantFil);
-    }
-  }
-  cout << bloques[0].size() << endl;
 }
-void Camarero::update()
+void Camarero::update(float& deltaTime)
 {
-  for(int i = 0; i < cantFil; i++)
+  spawn(deltaTime);
+  movement();
+  colisiones();
+}
+void Camarero::spawn(float& deltaTime)
+{
+  spawnTime += deltaTime;
+  if(spawnTime == 1.0f)
   {
-    for(int j = 0; j < cantCol; j++)
+    float x = static_cast<float>(std::rand() % limiteX); 
+    Bloque bloque(x, -50);
+    bloques.push_back(bloque);
+    spawnTime = 0;
+  }
+}
+void Camarero::movement()
+{
+  for(auto it = bloques.begin(); it != bloques.end();)
+  {
+    it -> gravity();
+    if(it -> getY() > limiteY)
     {
-      bloques[i][j] -> gravity();
+      it = bloque.erase(it);
+    }
+    else
+    {
+      ++i;
     }
   }
 }
 void Camarero::draw(sf::RenderWindow& window)
 {
-  for(int i = 0; i < cantFil; i++)
+  for(auto bloque : bloques)
   {
-    for(int j = 0; j < cantCol; j++)
-    {
-      bloques[i][j] -> draw(window);
-    }
+    bloque.draw(window);
+  }
+}
+void Camarero::colisiones(sf::RectangleShape& player)
+{
+  for(auto bloque : bloques)
+  {
+    if(player.getLocalBounds().intersects(bloque.shape.getLocalBounds()))
+      cout << 1 << endl;
   }
 }
