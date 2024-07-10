@@ -3,7 +3,7 @@
 class Camarero
 {
   private:
-    vector<Bloque> bloques;
+    vector<string> words;
     int limiteX;
     int limiteY;
     float spawnTime;
@@ -11,6 +11,7 @@ class Camarero
     void spawn(float&);
     void movement(float&);
   public:
+    vector<Bloque> bloques;
     Camarero(int, int);
     void draw(sf::RenderWindow&);
     void update(float&);

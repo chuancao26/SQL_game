@@ -1,24 +1,24 @@
 #include "Bloque.h"
-Bloque::Bloque():vel(200)
+Bloque::Bloque(float inicialX, float inicialY, const std::string& word):vel(200.f), x(inicialX), y(inicialY)
 {
-  shape.setSize(sf::Vector2f(20.0f, 20.0f));
-  shape.setFillColor(sf::Color::Red);
-  shape.setPosition(x, y);
-}
-Bloque::Bloque(float inicialX, float inicialY):vel(200.f), x(inicialX), y(inicialY)
-{
-  shape.setSize(sf::Vector2f(20.0f, 20.0f));
-  shape.setFillColor(sf::Color::Red);
-  shape.setPosition(x, y);
+  font.loadFromFile("fonts/Arial.ttf");
+  text.setFont(font);
+  text.setString(word);
+  text.setCharacterSize(24);
+  text.setFillColor(sf::Color::White);
+  text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+  text.setOutlineColor(sf::Color::Black);
+  text.setOutlineThickness(2);
+  text.setPosition(x, y);
 }
 void Bloque::gravity(float& deltaTime)
 {
   y += vel * deltaTime;
-  shape.setPosition(x, y);
+  text.setPosition(x, y);
 }
 void Bloque::draw(sf::RenderWindow& window)
 {
-  window.draw(shape);
+  window.draw(text);
 }
 float Bloque::getY()
 {

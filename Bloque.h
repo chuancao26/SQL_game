@@ -8,10 +8,10 @@ class Bloque
     float x;
     float y;
     float vel;
+    sf::Font font;
   public:
-    sf::RectangleShape shape;
-    Bloque();
-    Bloque(float, float);
+    sf::Text text;
+    Bloque(float, float, const std::string&, sf::Font);
     void gravity(float&);
     void draw(sf::RenderWindow&);
     float getY();

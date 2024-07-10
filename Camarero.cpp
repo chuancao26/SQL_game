@@ -1,6 +1,8 @@
 #include "Camarero.h" 
 Camarero::Camarero(int limiteX, int limiteY): limiteX(limiteX), limiteY(limiteY),spawnTime(0)//, srand(static_cast<unsigned>(std::time(nullptr)))
 {
+  words = {"SELECT", "FROM", "WHERE", "AND", "OR", "NOT"};
+  std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 void Camarero::update(float& deltaTime)
 {
@@ -14,8 +16,8 @@ void Camarero::spawn(float& deltaTime)
   if(spawnTime >= 1.0f)
   {
     float x = static_cast<float>(std::rand() % limiteX); 
-
-    Bloque bloque(x, -50);
+    int select_word = static_cast<int>(std::rand() % words.size());
+    Bloque bloque(x, -50, words[select_word]);
     bloques.push_back(bloque);
     spawnTime = 0;
   }
@@ -37,16 +39,17 @@ void Camarero::movement(float& deltaTime)
 }
 void Camarero::draw(sf::RenderWindow& window)
 {
-  for(auto bloque : bloques)
+  for(int i = 0; i < bloques.size(); i++)
   {
-    bloque.draw(window);
+    bloques[i].draw(window);
   }
+
 }
-void Camarero::colisiones(sf::RectangleShape& player)
-{
-  for(auto bloque : bloques)
-  {
-    if(player.getLocalBounds().intersects(bloque.shape.getLocalBounds()))
-      cout << 1 << endl;
-  }
-}
+//void Camarero::colisiones(sf::RectangleShape& player)
+//{
+//  for(auto bloque : bloques)
+//  {
+//    if(player.getGlobalBounds().intersects(bloque.text.getGlobalBounds()))
+//      cout << 1 << endl;
+//  }
+//}
