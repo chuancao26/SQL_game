@@ -1,2 +1,0 @@
-# SQL_game
-sql
