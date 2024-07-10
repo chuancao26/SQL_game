@@ -16,6 +16,7 @@ void Controller::update()
     }
     view.update();
     camarero.update(deltaTime);
+    camarero.colisiones(player.shape);
 }
 void Controller::run()
 {

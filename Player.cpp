@@ -22,3 +22,4 @@ void Player::draw(sf::RenderWindow& window)
   window.draw(shape);
 }
 
+

@@ -14,6 +14,7 @@ class Camarero
 
   public:
     vector<Bloque> bloques;
+    string query;
     Camarero(int, int, const sf::Font&);
     void draw(sf::RenderWindow&);
     void update(float&);

@@ -4,12 +4,12 @@
 class Player
 {
   private:
-    sf::RectangleShape shape;
     float x;
     float y;
     float vel;
   public:
     Player(); 
+    sf::RectangleShape shape;
     void moveLeft(float&);
     void moveRight(float&);
     void draw(sf::RenderWindow&);

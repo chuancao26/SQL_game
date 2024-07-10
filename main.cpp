@@ -5,7 +5,7 @@
 using namespace std;
 int main()
 {
-  std::string query = "SELECT name, age FROM users WHERE age >= 21 ORDER BY name DESC";
+  std::string query = "SELECT namesss, age FROM users WHERE age >= 21 ORDER BY name DESC";
   std::vector<Token> tokens = tokenize(query);
   
   std::cout << "Matriz de tokens:" << std::endl;

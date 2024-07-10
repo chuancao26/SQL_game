@@ -14,5 +14,6 @@ class Bloque
     void gravity(float&);
     void draw(sf::RenderWindow&);
     float getY();
+    string getWord();
 };
 #endif

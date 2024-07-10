@@ -23,5 +23,8 @@ float Bloque::getY()
 {
   return y;
 }
-
+string Bloque::getWord()
+{
+  return text.getString();
+}
 
