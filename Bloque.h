@@ -1,19 +1,24 @@
 #ifndef BLOQUE_H
 #define BLOQUE_H
-#include <vector>
-#include <random>
-class Bloque
-{
-  private:
+
+#include <SFML/Graphics.hpp>
+#include <string>
+
+class Bloque {
+public:
+    Bloque(float inicialX, float inicialY, const std::string& word, const sf::Font& font);
+
+    void gravity(float deltaTime);
+    void draw(sf::RenderWindow& window);
+    float getY() const;
+
+    sf::Text text;
+
+private:
+    float vel;
     float x;
     float y;
-    float vel;
-    sf::Font font;
-  public:
-    sf::Text text;
-    Bloque(float, float, const std::string&, sf::Font);
-    void gravity(float&);
-    void draw(sf::RenderWindow&);
-    float getY();
 };
-#endif
+
+#endif // BLOQUE_H
+

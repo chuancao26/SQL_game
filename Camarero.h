@@ -1,20 +1,24 @@
 #ifndef CAMARERO_H
 #define CAMARERO_H
-class Camarero
-{
-  private:
-    vector<string> words;
+class Camarero {
+public:
+    Camarero(int limiteX, int limiteY, const sf::Font& font);
+    
+    void update(float deltaTime);
+    void draw(sf::RenderWindow& window);
+    void colisiones(sf::RectangleShape& player);
+
+private:
+    void spawn(float deltaTime);
+    void movement(float deltaTime);
+
     int limiteX;
     int limiteY;
     float spawnTime;
-    //std::srand;
-    void spawn(float&);
-    void movement(float&);
-  public:
-    vector<Bloque> bloques;
-    Camarero(int, int);
-    void draw(sf::RenderWindow&);
-    void update(float&);
-    void colisiones(sf::RectangleShape&);
+    std::vector<std::string> words;
+    std::vector<Bloque> bloques;
+    const sf::Font& font;
 };
-#endif
+
+#endif // CAMARERO_H
+

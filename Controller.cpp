@@ -1,6 +1,7 @@
 #include "Controller.h"
-Controller::Controller(): camarero(1280, 720)
+Controller::Controller(): camarero(1280, 720, font)
 {
+  font.loadFromFile("fonts/Arial.ttf");
 }
 void Controller::update()
 {

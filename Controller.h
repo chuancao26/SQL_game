@@ -11,7 +11,7 @@ class Controller
     Player player;
     Camarero camarero;
     sf::Clock clock;
-
+    sf::Font font;
   public:
     Controller();
     void run();
