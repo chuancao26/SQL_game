@@ -1,11 +1,11 @@
 #include "Bloque.h"
-Bloque::Bloque():vel(5)
+Bloque::Bloque():vel(200)
 {
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::Red);
   shape.setPosition(x, y);
 }
-Bloque::Bloque(float inicialX, float inicialY):vel(5), x(inicialX), y(inicialY)
+Bloque::Bloque(float inicialX, float inicialY):vel(200.f), x(inicialX), y(inicialY)
 {
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::Red);

@@ -7,12 +7,13 @@ class Camarero
     int limiteX;
     int limiteY;
     float spawnTime;
-    std::srand;
+    //std::srand;
     void spawn(float&);
-    void movement()
+    void movement(float&);
   public:
     Camarero(int, int);
     void draw(sf::RenderWindow&);
     void update(float&);
+    void colisiones(sf::RectangleShape&);
 };
 #endif

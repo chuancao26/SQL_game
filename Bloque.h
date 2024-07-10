@@ -5,11 +5,11 @@
 class Bloque
 {
   private:
-    sf::RectangleShape shape;
     float x;
     float y;
     float vel;
   public:
+    sf::RectangleShape shape;
     Bloque();
     Bloque(float, float);
     void gravity(float&);

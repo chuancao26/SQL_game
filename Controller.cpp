@@ -4,15 +4,15 @@ Controller::Controller(): camarero(1280, 720)
 }
 void Controller::update()
 {
+    float deltaTime = clock.restart().asSeconds();
     if(view.getRightButton())
     {
-      player.moveRight();
+      player.moveRight(deltaTime);
     }
     if(view.getLeftButton())
     {
-      player.moveLeft();
+      player.moveLeft(deltaTime);
     }
-    float deltaTime = clock.restart().asSeconds();
     view.update();
     camarero.update(deltaTime);
 }

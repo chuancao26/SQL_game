@@ -1,20 +1,20 @@
 #include "Player.h"
-Player::Player(): vel(10), x(600), y(600)
+Player::Player(): vel(500), x(600), y(600)
 {
   shape.setSize(sf::Vector2f(20.0f, 20.0f));
   shape.setFillColor(sf::Color::White);
   shape.setPosition(x, y);
 }
-void Player::moveLeft()
+void Player::moveLeft(float& deltaTime)
 {
   if (x > 0)
-    x -= vel;
+    x -= vel * deltaTime;
   shape.setPosition(x, y);
 }
-void Player::moveRight()
+void Player::moveRight(float& deltaTime)
 {
   if(x < 1280)
-    x += vel;
+    x += vel * deltaTime;
   shape.setPosition(x, y);
 }
 void Player::draw(sf::RenderWindow& window)

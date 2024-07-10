@@ -5,13 +5,13 @@ class Player
 {
   private:
     sf::RectangleShape shape;
-    int x;
-    int y;
+    float x;
+    float y;
     float vel;
   public:
     Player(); 
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float&);
+    void moveRight(float&);
     void draw(sf::RenderWindow&);
 };
 #endif
