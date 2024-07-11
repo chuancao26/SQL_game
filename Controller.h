@@ -1,5 +1,6 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
+#include "Analyzers.cpp"
 #include "Vista.cpp"
 #include "Player.cpp"
 #include "Bloque.cpp"
@@ -12,7 +13,7 @@ class Controller
     Camarero camarero;
     sf::Clock clock;
     sf::Font font;
-
+    Analyzer analyzer;
   public:
     Controller();
     void run();

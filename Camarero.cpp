@@ -3,10 +3,10 @@ Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limi
 {
   words = {
     // Keywords
-    "SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT",
+    "SELECT", "FROM", //"WHERE", "ORDER", "BY", "AND", "OR", "NOT",
 
     // Operators
-    "=", "!=", "<", ">", "<=", ">=",
+    //"=", "!=", "<", ">", "<=", ">=",
 
     // Functions
     "*",
@@ -15,10 +15,13 @@ Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limi
     "personas", "nombre", "edad", "ciudad", "pais",
 
     // Literals (ejemplos)
-    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0",
+    //"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0",
 
     // Order by modifiers
-    "ASC", "DESC"
+    //"ASC", "DESC"
+    
+    //EOF
+     ";"
   };
 
   std::srand(static_cast<unsigned>(std::time(nullptr)));
@@ -72,14 +75,25 @@ void Camarero::draw(sf::RenderWindow& window)
   window.draw(capturedText);
 
 }
-void Camarero::colisiones(sf::RectangleShape& player)
+void Camarero::colisiones(sf::RectangleShape& player, Analyzer analyzer)
 {
   for(auto it = bloques.begin(); it != bloques.end();)
   {
     if(player.getGlobalBounds().intersects(it -> text.getGlobalBounds()))
     {
-      query += it -> getWord();
-      query += " ";
+      query += it -> getWord() + " ";
+      if(it -> getWord() == ";")
+      {
+	if(analyzer.getStatus(query))
+	{
+	  cout << "correcto" << endl;
+	}
+	else
+	{
+	  cout << "error" << endl;
+	}
+	query = "";
+      }
       it = bloques.erase(it);
     }
     else

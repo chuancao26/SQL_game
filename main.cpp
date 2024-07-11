@@ -1,18 +1,20 @@
 #include <iostream>
-#include "Analyzers.cpp"
 #include "Controller.cpp"
 using namespace std;
 
 int main() {
+  /*
     string query;
     getline(cin, query);
     Analyzer analizador;
     if(analizador.getStatus(query))
     {
-      Controller controller;
-      controller.run();
-    }
 
+    }
+    */
+
+    Controller controller;
+    controller.run();
     /*
     std::vector<Token> tokens = tokenize(query);
 
