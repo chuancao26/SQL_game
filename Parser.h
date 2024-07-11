@@ -13,25 +13,24 @@ struct Node
   string type;
   string value;
   vector<Node*> children;
-
   Node(string type, string value = "") : type(type), value(value) {}
 };
-
-void print_ast(Node* node, int level = 0);
 
 class Parser
 {
   vector<Token> tokens;
   size_t current;
+
 public:
   Parser(const vector<Token>& tokens);
   Node* parse();
-  void print_ast(Node*, int);
+  void print_ast(Node*, int level = 0);
 
 private:
   Token& consume();
   Token& peek();
   bool match(TokenType type);
+  bool isValidIdentifier(const std::string& id);
   Node* query();
   Node* select_list();
   Node* column();
@@ -46,4 +45,3 @@ private:
 };
 
 #endif // PARSER_H
-

@@ -63,7 +63,7 @@ struct Token {
 
 // Función que identifica el tipo de token
 TokenType identifyToken(const std::string& word) {
-    static std::regex identifierRegex("[a-zA-Z_][a-zA-Z0-9_]*");
+    static std::regex identifierRegex("[a-zA-Z_][a-zA-Z0-9_]+");
     static std::regex literalRegex("[0-9]+|\\.|\\\"\\.");
     
     if (word == "SELECT") return SELECT;
