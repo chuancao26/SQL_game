@@ -165,6 +165,10 @@ Node* Parser::where_clause()
         consume();
         node->children.push_back(condition());
     }
+    else if(current >= tokens.size())
+    {
+      return node;
+    }
     else
     {
       throw SyntaxError("Invalid expression around WHERE clause.");
@@ -229,6 +233,10 @@ Node* Parser::order_clause()
 	}
 	consume();
         node->children.push_back(order_list());
+    }
+    else if(current >= tokens.size())
+    {
+      return node;
     }
     else
     {

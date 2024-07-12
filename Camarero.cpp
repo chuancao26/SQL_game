@@ -12,7 +12,7 @@ Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limi
     "*",
 
     // Identifiers (representativos)
-    "personas", "nombre", "edad", "ciudad", "pais",
+    "producto", "nombre", "descripcion", "precio", "pais",
 
     // Literals (ejemplos)
     //"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0",
