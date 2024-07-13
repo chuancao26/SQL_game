@@ -14,6 +14,16 @@ void Controller::update()
     {
       player.moveLeft(deltaTime);
     }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+      camarero.setMapSelector("q");
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+      camarero.setMapSelector("w");
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      camarero.setMapSelector("e");
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+      camarero.setMapSelector("r");
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      camarero.spaceClean();
     view.update();
     camarero.update(deltaTime);
     camarero.colisiones(player.shape, analyzer);

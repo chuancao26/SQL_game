@@ -1,32 +1,21 @@
 #include "Camarero.h" 
-Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limiteX), limiteY(limiteY),spawnTime(0), font(font), query(""), status(false), printStatus(false)
+Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limiteX), limiteY(limiteY),spawnTime(0), font(font), query(""), status(false), printStatus(false), mapSelector("q"), statusSelector(true),  text1("Press Q to show clauses", 700, 350, font), text2("Press W to show operators", 700, 370 , font), text3("Press E to show identificadores", 700, 390, font), text4("Press R to show numeros", 700, 410, font), text5("Presiona Espacio para limpiar", 700, 430, font)
 {
   std::random_device rd;
   rng = std::mt19937(rd());
-  words = {
-    // Keywords
-    "SELECT", "FROM", //"WHERE", "ORDER", "BY", "AND", "OR", "NOT",
-
-    // Operators
-    //"=", "!=", "<", ">", "<=", ">=",
-
-    // Functions
-    "*",
-
-    // Identifiers (representativos)
-    "producto", "nombre", "descripcion", "precio", "pais",
-
-    // Literals (ejemplos)
-    //"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0",
-
-    // Order by modifiers
-    //"ASC", "DESC"
-    
-    //EOF
-     ";"
-  };
-
+  words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
+  words["w"] = {"=", "!=", "<", ">", "<=", ">="};
+  words["e"] = {"producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
   std::srand(static_cast<unsigned>(std::time(nullptr)));
+}
+void Camarero::instruccions(sf::RenderWindow& window)
+{
+  text1.draw(window);
+  text2.draw(window);
+  text3.draw(window);
+  text4.draw(window);
+  text5.draw(window);
 }
 void Camarero::update(float& deltaTime)
 {
@@ -39,6 +28,11 @@ void Camarero::update(float& deltaTime)
     printStatus = false;
     statusTime = 0;
   }
+  timeSelector += deltaTime;
+  if(timeSelector >= 2.0f)
+  {
+    statusSelector = true;
+  }
 }
 void Camarero::spawn(float& deltaTime)
 {
@@ -46,9 +40,9 @@ void Camarero::spawn(float& deltaTime)
   if(spawnTime >= 0.5f)
   {
     float x = static_cast<float>(std::rand() % (limiteX - 700)); 
-    std::uniform_int_distribution<> dist(0, words.size() - 1);
+    std::uniform_int_distribution<> dist(0, words[mapSelector].size() - 1);
     int select_word = dist(rng);
-    Bloque bloque(x, -50, words[select_word], font);
+    Bloque bloque(x, -50, words[mapSelector][select_word], font);
     bloques.push_back(bloque);
     dropWord();
     spawnTime = 0;
@@ -57,39 +51,21 @@ void Camarero::spawn(float& deltaTime)
 }
 void Camarero::dropWord()
 {
-  for(auto it = words.begin(); it != words.end();)
+  for(auto it = words["q"].begin(); it != words["q"].end();)
   {
-    if(query.find(*it) != std::string::npos)
+    if(query.find(*it) != std::string::npos && it -> size() >= 4)
     {
-      it = words.erase(it);
+      it = words["q"].erase(it);
     }
     ++it;
   }
 }
 void Camarero::resetWords()
 {
-  words = {
-    // Keywords
-    "SELECT", "FROM", //"WHERE", "ORDER", "BY", "AND", "OR", "NOT",
-
-    // Operators
-    //"=", "!=", "<", ">", "<=", ">=",
-
-    // Functions
-    "*",
-
-    // Identifiers (representativos)
-    "producto", "nombre", "descripcion", "precio", "pais",
-
-    // Literals (ejemplos)
-    //"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0",
-
-    // Order by modifiers
-    //"ASC", "DESC"
-    
-    //EOF
-     ";"
-  };
+  words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
+  words["w"] = {"=", "!=", "<", ">", "<=", ">="};
+  words["e"] = {"producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
 }
 void Camarero::movement(float& deltaTime)
 {
@@ -113,6 +89,7 @@ void Camarero::draw(sf::RenderWindow& window)
     bloques[i].draw(window);
   }
 
+  instruccions(window);
   // Query
   sf::Text capturedText;
   capturedText.setFont(font);
@@ -183,3 +160,17 @@ void Camarero::colisiones(sf::RectangleShape& player, Analyzer analyzer)
     }
   }
 }
+void Camarero::setMapSelector(string selector)
+{
+  if (statusSelector)
+  {
+    mapSelector = selector;
+    statusSelector = false;
+    timeSelector = 0;
+  }
+}
+void Camarero::spaceClean()
+{
+  query = "";
+}
+
