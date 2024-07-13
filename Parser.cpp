@@ -37,7 +37,6 @@ Node* Parser::parse()
 
 Token& Parser::consume()
 {
-  std::cout << tokens[current].value << std::endl;
     return tokens[current++];
 }
 

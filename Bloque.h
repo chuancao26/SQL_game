@@ -10,7 +10,7 @@ class Bloque
     float vel;
   public:
     sf::Text text;
-    Bloque(float, float, const std::string&, const sf::Font& font);
+    Bloque(float, float, string, const sf::Font& font);
     void gravity(float&);
     void draw(sf::RenderWindow&);
     float getY();

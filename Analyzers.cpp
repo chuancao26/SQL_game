@@ -1,5 +1,5 @@
 #include "Analyzers.h"
-Analyzer::Analyzer()
+Analyzer::Analyzer(): message("Not defined")
 {
 }
 bool Analyzer::getStatus(string query)
@@ -9,23 +9,27 @@ bool Analyzer::getStatus(string query)
   {
     Parser parser(tokens);
     Node* ast = parser.parse();
-    parser.print_ast(ast);
+    //parser.print_ast(ast);
 
     if (!validate_ast(ast))
     {
+      message =  "La consulta tiene errores semanticos.";
       return 0;
-      std::cout << "La consulta tiene errores semanticos." << std::endl;
     }
   }
   catch (const SyntaxError& e)
   {
-    cout <<  e.what();
+    message = e.what();
     return 0;
   }
   catch (const std::exception& e) 
   {
-    cout <<  e.what();
+    message = e.what();
     return 0;
   }
   return 1;
+}
+string Analyzer::getMessage()
+{
+  return message;
 }

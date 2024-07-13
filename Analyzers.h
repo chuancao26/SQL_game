@@ -6,9 +6,11 @@ class Analyzer
 {
   private:
     std::vector<Token> tokens;
+    string message;
   public:
     Analyzer();
     bool getStatus(string);
+    string getMessage();
 };
 #endif
 

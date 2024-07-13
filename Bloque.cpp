@@ -1,5 +1,5 @@
 #include "Bloque.h"
-Bloque::Bloque(float inicialX, float inicialY, const std::string& word, const sf::Font& font):vel(200.f), x(inicialX), y(inicialY)
+Bloque::Bloque(float inicialX, float inicialY, string word, const sf::Font& font):vel(300.f), x(inicialX), y(inicialY)
 {
   text.setFont(font);
   text.setString(word);

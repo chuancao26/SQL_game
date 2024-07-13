@@ -35,6 +35,7 @@ void Controller::run()
 void Controller::renderizar()
 {
   view.window.clear();
+  view.setBackground();
   player.draw(view.window);
   camarero.draw(view.window);
   view.window.display();
