@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <random>
 
+// Clase Cuadrado
+
 class Cuadrado {
 public:
     Cuadrado(int id, const sf::Texture& texOriginal, const sf::Texture& texPalabra, sf::Vector2f originalPos);
@@ -116,13 +118,16 @@ int Cuadrado::getClickCount() const {
     return clickCount;
 }
 
+// Clase Controller2
+
 class Controller2 {
 public:
-    Controller2(int n);
+    Controller2(sf::RenderWindow& window, int n);
     void run();
+    void render();
 
 private:
-    sf::RenderWindow window;
+    sf::RenderWindow& window;
     std::unique_ptr<sf::Texture> fondoOrdenTexture;
     std::unique_ptr<sf::Sprite> fondoOrdenSprite;
     std::vector<std::unique_ptr<sf::Texture>> imgOrdenTextures;
@@ -140,7 +145,6 @@ private:
     std::vector<int> selectedIndices;
 
     void handleEvents();
-    void render();
     void organizeImages();
     void moveImage(int index);
     void returnImage(int index);
@@ -149,8 +153,8 @@ private:
     void randomizePositions();
 };
 
-Controller2::Controller2(int n)
-    : window(sf::VideoMode(1200, 800), "SFML Game"), n(n), transitioning(false),
+Controller2::Controller2(sf::RenderWindow& window, int n)
+    : window(window), n(n), transitioning(false),
       fondoOrdenTexture(std::make_unique<sf::Texture>()),
       fondoOrdenSprite(std::make_unique<sf::Sprite>()),
       tablaTexture(std::make_unique<sf::Texture>()),
@@ -287,11 +291,4 @@ void Controller2::render() {
         organizeImages();
     }
     window.display();
-}
-
-int main() {
-    int n = 4; // Define the grid size
-    Controller2 controller2(n);
-    controller2.run();
-    return 0;
 }
