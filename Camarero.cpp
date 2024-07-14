@@ -5,7 +5,7 @@ Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limi
   rng = std::mt19937(rd());
   words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
   words["w"] = {"=", "!=", "<", ">", "<=", ">="};
-  words["e"] = {"producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["e"] = {"*","producto", "nombre", "descripcion", "precio", "pais", ";"};
   words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
   std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
@@ -64,7 +64,7 @@ void Camarero::resetWords()
 {
   words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
   words["w"] = {"=", "!=", "<", ">", "<=", ">="};
-  words["e"] = {"producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["e"] = {"*","producto", "nombre", "descripcion", "precio", "pais", ";"};
   words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
 }
 void Camarero::movement(float& deltaTime)
@@ -172,5 +172,6 @@ void Camarero::setMapSelector(string selector)
 void Camarero::spaceClean()
 {
   query = "";
+  resetWords();
 }
 
