@@ -44,7 +44,6 @@ void Camarero::spawn(float& deltaTime)
     int select_word = dist(rng);
     Bloque bloque(x, -50, words[mapSelector][select_word], font);
     bloques.push_back(bloque);
-    dropWord();
     spawnTime = 0;
   }
 
