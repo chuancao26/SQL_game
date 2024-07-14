@@ -1,7 +1,7 @@
 #include "Vista.h"
 Vista::Vista(): window(sf::VideoMode(1280, 720), "SQL")
 {
-  window.setFramerateLimit(60);
+  window.setFramerateLimit(120);
   backgroundTexture.loadFromFile("img/menu/menu.png");
   backgroundSprite.setTexture(backgroundTexture);
 }
