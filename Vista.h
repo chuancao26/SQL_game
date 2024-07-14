@@ -15,6 +15,6 @@ class Vista
     bool getRightButton();
     bool getLeftButton();
     void update();
-    void setBackground();
+    void setBackground(int nivel);
 }; 
 #endif
