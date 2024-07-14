@@ -1,11 +1,20 @@
 #include "Camarero.h" 
-Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limiteX), limiteY(limiteY),spawnTime(0), font(font), query(""), status(false), printStatus(false), mapSelector("q"), statusSelector(true),  text1("Press Q to show clauses", 700, 350, font), text2("Press W to show operators", 700, 370 , font), text3("Press E to show identificadores", 700, 390, font), text4("Press R to show numeros", 700, 410, font), text5("Presiona Espacio para limpiar", 700, 430, font)
+Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limiteX), limiteY(limiteY),spawnTime(0), font(font), query(""), status(false), printStatus(false), mapSelector("q"), statusSelector(true),  
+  text1("Press Q to show clauses", 700, 20, font), 
+  text2("Press W to show operators", 700, 50 , font), 
+  text3("Press E to show identificadores", 700, 80, font),
+  text4("Press R to show numeros", 700, 110, font),
+  text5("Presiona Espacio para limpiar", 700, 140, font),
+  tablePersona(700, 190, "tablePersona.png"),
+  tableProducto(1000, 190, "tableProducto.png"),
+  tableOrden(700, 420, "ordenTable.png"),
+  tableUser(1000, 410, "tableUser.png")
 {
   std::random_device rd;
   rng = std::mt19937(rd());
   words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
   words["w"] = {"=", "!=", "<", ">", "<=", ">="};
-  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "id","user_id",";", "amount", "date", "edad", "apellidos", "dni"};
+  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "id","user_id",";", "amount", "date", "edad", "apellidos", "dni", "persona", "orden", "users"};
   words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
   std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
@@ -16,6 +25,11 @@ void Camarero::instruccions(sf::RenderWindow& window)
   text3.draw(window);
   text4.draw(window);
   text5.draw(window);
+
+  tableUser.draw(window);
+  tablePersona.draw(window);
+  tableProducto.draw(window);
+  tableOrden.draw(window);
 }
 void Camarero::update(float& deltaTime)
 {
@@ -37,7 +51,7 @@ void Camarero::update(float& deltaTime)
 void Camarero::spawn(float& deltaTime)
 {
   spawnTime += deltaTime;
-  if(spawnTime >= 0.5f)
+  if(spawnTime >= 0.36f)
   {
     float x = static_cast<float>(std::rand() % (limiteX - 700)); 
     std::uniform_int_distribution<> dist(0, words[mapSelector].size() - 1);
@@ -63,7 +77,7 @@ void Camarero::resetWords()
 {
   words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
   words["w"] = {"=", "!=", "<", ">", "<=", ">="};
-  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "id","user_id",";", "amount", "date", "edad", "apellidos", "dni", "persona", "orden", "users"};
   words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
 }
 void Camarero::movement(float& deltaTime)
@@ -107,11 +121,11 @@ void Camarero::draw(sf::RenderWindow& window)
   statusWord.setFont(font);
   statusWord.setString("Buen Trabajo!!!");
   statusWord.setCharacterSize(20);
-  statusWord.setFillColor(sf::Color::White);
+  statusWord.setFillColor(sf::Color::Green);
   statusWord.setStyle(sf::Text::Bold | sf::Text::Underlined);
   statusWord.setOutlineColor(sf::Color::Black);
   statusWord.setOutlineThickness(2);
-  statusWord.setPosition(700, 200);
+  statusWord.setPosition(40, 690);
   window.draw(statusWord);
   }
 
@@ -121,11 +135,11 @@ void Camarero::draw(sf::RenderWindow& window)
   statusWord.setFont(font);
   statusWord.setString(errorMessage);
   statusWord.setCharacterSize(20);
-  statusWord.setFillColor(sf::Color::White);
+  statusWord.setFillColor(sf::Color::Red);
   statusWord.setStyle(sf::Text::Bold | sf::Text::Underlined);
   statusWord.setOutlineColor(sf::Color::Black);
   statusWord.setOutlineThickness(2);
-  statusWord.setPosition(700, 200);
+  statusWord.setPosition(40, 690);
   window.draw(statusWord);
   }
 }

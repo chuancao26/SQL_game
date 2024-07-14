@@ -23,6 +23,23 @@ public:
     window.draw(text);
   }
 };
+class Tables
+{
+  public:
+    sf::Texture texture;
+    sf::Sprite shape;
+    Tables(float x, float y, string path)
+    {
+      texture.loadFromFile("img/Camarero/" + path);
+      shape.setTexture(texture);
+      shape.setPosition(x, y);
+      shape.setScale(0.4f, 0.4f);
+    }
+    void draw(sf::RenderWindow& window)
+    {
+      window.draw(shape);
+    }
+};
 class Camarero
 {
   private:
@@ -53,6 +70,10 @@ class Camarero
     TextDisplay text3;
     TextDisplay text4;
     TextDisplay text5;
+    Tables tableUser;
+    Tables tablePersona;
+    Tables tableProducto;
+    Tables tableOrden;
 
   public:
     vector<Bloque> bloques;
