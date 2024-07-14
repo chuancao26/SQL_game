@@ -17,7 +17,7 @@ std::unordered_map<std::string, std::unordered_map<std::string, DataType>> datab
     {"producto", {{"nombre", STRING}, {"descripcion", STRING}, {"precio", FLOAT}}},
     {"orden", {{"id", INTEGER}, {"user_id", INTEGER}, {"amount", FLOAT}, {"date", STRING}}},
     {"persona", {{"nombre", STRING}, {"apellidos", STRING}, {"dni", STRING}}},
-    {"users", {{"name", STRING}, {"age", INTEGER}}}
+    {"users", {{"nombre", STRING}, {"edad", INTEGER}}}
 };
 
 void obtenerCondicion(Node* conditionNode, std::vector<std::tuple<std::string, std::string, std::string>>& condiciones) {

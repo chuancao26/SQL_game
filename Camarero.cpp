@@ -5,7 +5,7 @@ Camarero::Camarero(int limiteX, int limiteY, const sf::Font& font): limiteX(limi
   rng = std::mt19937(rd());
   words["q"] = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC"};
   words["w"] = {"=", "!=", "<", ">", "<=", ">="};
-  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "pais", ";"};
+  words["e"] = {"*",",","producto", "nombre", "descripcion", "precio", "id","user_id",";", "amount", "date", "edad", "apellidos", "dni"};
   words["r"] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", ";"};
   std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
