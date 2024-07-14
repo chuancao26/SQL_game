@@ -129,7 +129,7 @@ void Camarero::draw(sf::RenderWindow& window)
   window.draw(statusWord);
   }
 }
-void Camarero::colisiones(sf::RectangleShape& player, Analyzer analyzer)
+void Camarero::colisiones(sf::Sprite & player, Analyzer analyzer)
 {
   for(auto it = bloques.begin(); it != bloques.end();)
   {

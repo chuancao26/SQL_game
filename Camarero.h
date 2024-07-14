@@ -60,7 +60,7 @@ class Camarero
     Camarero(int, int, const sf::Font&);
     void draw(sf::RenderWindow&);
     void update(float&);
-    void colisiones(sf::RectangleShape&, Analyzer);
+    void colisiones(sf::Sprite&, Analyzer);
     void setMapSelector(string);
     void spaceClean();
 };

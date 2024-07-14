@@ -1,17 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <SFML/Graphics.hpp>
+
 class Player
 {
-  private:
+private:
     float x;
     float y;
     float vel;
-  public:
+    sf::Texture texture;
+
+public:
+    sf::Sprite shape;
     Player(); 
-    sf::RectangleShape shape;
     void moveLeft(float&);
     void moveRight(float&);
     void draw(sf::RenderWindow&);
 };
+
 #endif

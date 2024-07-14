@@ -10,11 +10,10 @@ Bloque::Bloque(float inicialX, float inicialY, string word, const sf::Font& font
   text.setOutlineThickness(2);
   text.setPosition(x, y);
 }
-void Bloque::gravity(float deltaTime)
+void Bloque::gravity(float& deltaTime)
 {
-    float displacement = vel * deltaTime;
-    y += displacement;  // Actualiza la posición y
-    text.move(0, displacement);  // Mueve el texto
+    y += vel * deltaTime;
+    text.setPosition(x, y);
 }
 void Bloque::draw(sf::RenderWindow& window)
 {
