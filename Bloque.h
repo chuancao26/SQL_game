@@ -11,7 +11,7 @@ class Bloque
   public:
     sf::Text text;
     Bloque(float, float, string, const sf::Font& font);
-    void gravity(float&);
+    void gravity(float);
     void draw(sf::RenderWindow&);
     float getY();
     string getWord();
