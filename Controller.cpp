@@ -36,7 +36,6 @@ Controller::Controller(): camarero(1280, 720, font), ganaste(false)
 }
 void Controller::update()
 {
-    float deltaTime = clock.restart().asSeconds();
 
     switch (gameState) {
         case GameState::Menu: {
@@ -59,6 +58,8 @@ void Controller::update()
         }
 
         case GameState::Nivel1: {
+
+            float deltaTime = clock.restart().asSeconds();
             if(view.getRightButton())
             {
             player.moveRight(deltaTime);
