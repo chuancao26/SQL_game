@@ -161,7 +161,7 @@ private:
 };
 
 Controller2::Controller2(sf::RenderWindow& window, int n)
-    : window(window), n(n), transitioning(false),
+    : window(window), n(n), transitioning(true), // Start with transitioning true
       fondoOrdenTexture(std::make_unique<sf::Texture>()),
       fondoOrdenSprite(std::make_unique<sf::Sprite>()),
       tablaTexture(std::make_unique<sf::Texture>()),
@@ -205,7 +205,7 @@ Controller2::Controller2(sf::RenderWindow& window, int n)
 
     tablaTexture->loadFromFile("img/tabla.png");
     tablaSprite->setTexture(*tablaTexture);
-    tablaSprite->setPosition(window.getSize().x * 2 / 3, 0);
+    tablaSprite->setPosition(window.getSize().x * 2 / 3, 100);
 
     botonTexture1->loadFromFile("img/boton1.png"); // Load button 1 texture
     botonTexture2->loadFromFile("img/boton2.png"); // Load button 2 texture
@@ -231,28 +231,24 @@ void Controller2::handleEvents() {
         if (event.type == sf::Event::Closed) {
             window.close();
         } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-            if (!transitioning) {
-                transitioning = true;
-            } else {
-                int countMoving = 0;
-                for (int i = 0; i < n * n; ++i) {
-                    if (cuadrados[i].contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
-                        cuadrados[i].incrementClickCount();
-                        if (!cuadrados[i].isMoved()) {
-                            if (countMoving < 3) {
-                                moveImage(i);
-                                selectedIndices.push_back(i + 1);
-                                ++countMoving;
-                            }
-                        } else {
-                            returnImage(i);
+            int countMoving = 0;
+            for (int i = 0; i < n * n; ++i) {
+                if (cuadrados[i].contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
+                    cuadrados[i].incrementClickCount();
+                    if (!cuadrados[i].isMoved()) {
+                        if (countMoving < 3) {
+                            moveImage(i);
+                            selectedIndices.push_back(i + 1);
+                            ++countMoving;
                         }
+                    } else {
+                        returnImage(i);
                     }
                 }
-                if (redSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                    handleRedSquareClick();
-                    botonSprite.setTexture(*botonTexture2); // Change to button 2 texture
-                }
+            }
+            if (redSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                handleRedSquareClick();
+                botonSprite.setTexture(*botonTexture2); // Change to button 2 texture
             }
         } else if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
             if (redSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
@@ -303,8 +299,6 @@ void Controller2::resultadoPalabra(const std::vector<int>& indices) {
 
 void Controller2::render() {
     window.clear();
-    if (transitioning) {
-        organizeImages();
-    }
+    organizeImages(); // Always organize and draw images
     window.display();
 }
