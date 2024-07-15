@@ -6,6 +6,84 @@
 #include <algorithm>
 #include <random>
 
+// Definición de las categorías de palabras
+std::vector<std::string> palabrasTodas = {"SELECT", "*", "FROM", "producto", "nombre", 
+    "descripcion", "precio", "orden", "id", "user_id", "amount", "date",
+    "persona", "apellidos", "dni", "users", "name", "age", ">", "<", "<=",
+    ">=", "!=", "=", "ORDER", "BY", "WHERE", "ASC", "DESC", "AND", "OR", "NOT", "1", "2", 
+    "3", "4", "5", "6", "7", "8", "9", "0", ";"};
+
+std::vector<std::string> palabrasReservadas = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC", "*"};
+std::vector<std::string> comparaciones = {"=", "!=", "<", ">", "<=", ">="};
+std::vector<std::string> numeros = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+std::vector<std::string> tabla1 = {"id", "name", "age", "users"};
+std::vector<std::string> tabla2 = {"nombre", "id", "precio", "descripcion", "producto"};
+std::vector<std::string> tabla3 = {"nombre", "id", "apellidos", "dni", "persona"};
+std::vector<std::string> tabla4 = {"id", "user_id", "amount", "date", "orden"};
+
+// Función para llenar el arreglo palabras
+std::vector<std::string> llenarArregloPalabras() {
+    std::vector<std::string> palabras;
+    std::vector<std::string> tablaElegida;
+    std::string nombreTabla;
+
+    // Elegir una tabla al azar
+    int tablaIndex = rand() % 4;
+    switch (tablaIndex) {
+        case 0: 
+            tablaElegida = tabla1;
+            nombreTabla = "tabla1.png";
+            break;
+        case 1: 
+            tablaElegida = tabla2;
+            nombreTabla = "tabla2.png";
+            break;
+        case 2: 
+            tablaElegida = tabla3;
+            nombreTabla = "tabla3.png";
+            break;
+        case 3: 
+            tablaElegida = tabla4;
+            nombreTabla = "tabla4.png";
+            break;
+    }
+
+    // Agregar las palabras según las reglas
+    palabras.push_back("SELECT");
+    palabras.push_back("SELECT");
+    palabras.push_back("FROM");
+    palabras.push_back("FROM");
+    palabras.push_back("WHERE");
+    palabras.push_back("ORDER");
+    palabras.push_back("BY");
+
+    // Elegir 2 palabras adicionales de palabrasReservadas que no sean ASC ni DESC
+    std::vector<std::string> palabrasReservadasRestantes = palabrasReservadas;
+    palabrasReservadasRestantes.erase(std::remove(palabrasReservadasRestantes.begin(), palabrasReservadasRestantes.end(), "ASC"), palabrasReservadasRestantes.end());
+    palabrasReservadasRestantes.erase(std::remove(palabrasReservadasRestantes.begin(), palabrasReservadasRestantes.end(), "DESC"), palabrasReservadasRestantes.end());
+    std::random_shuffle(palabrasReservadasRestantes.begin(), palabrasReservadasRestantes.end());
+    palabras.push_back(palabrasReservadasRestantes[0]);
+    palabras.push_back(palabrasReservadasRestantes[1]);
+
+    // Agregar aleatoriamente ASC o DESC
+    palabras.push_back(rand() % 2 == 0 ? "ASC" : "DESC");
+
+    // Agregar 1 palabra de comparaciones y 1 palabra de números
+    palabras.push_back(comparaciones[rand() % comparaciones.size()]);
+    palabras.push_back(numeros[rand() % numeros.size()]);
+
+    // Agregar la última palabra de la tabla elegida dos veces
+    palabras.push_back(tablaElegida.back());
+    palabras.push_back(tablaElegida.back());
+
+    // Elegir 2 palabras adicionales de la tabla elegida
+    std::random_shuffle(tablaElegida.begin(), tablaElegida.end());
+    palabras.push_back(tablaElegida[0]);
+    palabras.push_back(tablaElegida[1]);
+
+    return palabras;
+}
+
 // Clase Cuadrado
 
 class Cuadrado {
@@ -22,7 +100,7 @@ public:
     void incrementClickCount();
     int getClickCount() const;
     std::string getPalabra() const;
-
+    
 private:
     int id;
     sf::Sprite spriteOriginal;
@@ -125,6 +203,25 @@ std::string Cuadrado::getPalabra() const {
     return palabra;
 }
 
+
+vector<int> encontrarPosiciones(const vector<string>& a, vector<string>& b) {
+    vector<int> numeros;
+
+    for (const auto& palabra_a : a) {
+        // Buscamos palabra_a en el vector b
+        auto it = find(b.begin(), b.end(), palabra_a);
+        
+        if (it != b.end()) {
+            // Obtenemos la posición de la palabra en b
+            int posicion = distance(b.begin(), it);
+            numeros.push_back(posicion);
+        }
+    }
+
+    return numeros;
+}
+
+
 // Clase Controller2
 
 class Controller2 {
@@ -141,9 +238,9 @@ private:
     std::vector<std::unique_ptr<sf::Texture>> imgPalabraTextures;
     std::unique_ptr<sf::Texture> tablaTexture;
     std::unique_ptr<sf::Sprite> tablaSprite;
-    std::unique_ptr<sf::Texture> botonTexture1; // Texture for button 1
-    std::unique_ptr<sf::Texture> botonTexture2; // Texture for button 2
-    sf::Sprite botonSprite; // Sprite for the button
+    std::unique_ptr<sf::Texture> botonTexture1;
+    std::unique_ptr<sf::Texture> botonTexture2;
+    sf::Sprite botonSprite;
     sf::RectangleShape redSquare;
     std::vector<Cuadrado> cuadrados;
 
@@ -158,16 +255,18 @@ private:
     void handleRedSquareClick();
     void resultadoPalabra(const std::vector<int>& indices);
     void randomizePositions();
+
+    std::vector<std::string> llenarArregloPalabras();
 };
 
 Controller2::Controller2(sf::RenderWindow& window, int n)
-    : window(window), n(n), transitioning(true), // Start with transitioning true
+    : window(window), n(n), transitioning(true), 
       fondoOrdenTexture(std::make_unique<sf::Texture>()),
       fondoOrdenSprite(std::make_unique<sf::Sprite>()),
       tablaTexture(std::make_unique<sf::Texture>()),
       tablaSprite(std::make_unique<sf::Sprite>()),
-      botonTexture1(std::make_unique<sf::Texture>()), // Initialization of button 1 texture
-      botonTexture2(std::make_unique<sf::Texture>()) { // Initialization of button 2 texture
+      botonTexture1(std::make_unique<sf::Texture>()), 
+      botonTexture2(std::make_unique<sf::Texture>()) {
 
     fondoOrdenTexture->loadFromFile("img/fondoOrden.png");
     fondoOrdenSprite->setTexture(*fondoOrdenTexture);
@@ -180,14 +279,13 @@ Controller2::Controller2(sf::RenderWindow& window, int n)
     std::iota(imgIndices.begin(), imgIndices.end(), 0);
     std::shuffle(imgIndices.begin(), imgIndices.end(), std::mt19937{ std::random_device{}() });
 
-    std::string palabras[19] = {"SELECT", "*", "FROM", "producto", "nombre", 
-    "descripcion", "precio", "orden", "id", "user_id", "amount", "date",
-    "persona", "apellidos", "dni", "users", "name", "age"};
+    std::vector<std::string> palabras = llenarArregloPalabras();
 
+    vector<int> numeros = encontrarPosiciones(palabras, palabrasTodas);
     // Load imgPalabraTextures in the exact order of palabras
     for (int i = 0; i < n * n; ++i) {
         imgPalabraTextures.push_back(std::make_unique<sf::Texture>());
-        imgPalabraTextures[i]->loadFromFile("img/imgPalabra" + std::to_string(i + 1) + ".png");
+        imgPalabraTextures[i]->loadFromFile("img/imgPalabra" + std::to_string(numeros[i] + 1) + ".png");
     }
 
     for (int i = 0; i < n * n; ++i) {
@@ -207,16 +305,22 @@ Controller2::Controller2(sf::RenderWindow& window, int n)
     tablaSprite->setTexture(*tablaTexture);
     tablaSprite->setPosition(window.getSize().x * 2 / 3, 100);
 
-    botonTexture1->loadFromFile("img/boton1.png"); // Load button 1 texture
-    botonTexture2->loadFromFile("img/boton2.png"); // Load button 2 texture
-    botonSprite.setTexture(*botonTexture1); // Initially set the button with texture 1
-    botonSprite.setScale(50.0f / botonTexture1->getSize().x, 50.0f / botonTexture1->getSize().y); // Adjust button size
+    botonTexture1->loadFromFile("img/boton1.png");
+    botonTexture2->loadFromFile("img/boton2.png");
+    botonSprite.setTexture(*botonTexture1);
+    botonSprite.setScale(50.0f / botonTexture1->getSize().x, 50.0f / botonTexture1->getSize().y);
     botonSprite.setPosition(window.getSize().x * 2 / 3 - 25, 500);
 
     redSquare.setSize(sf::Vector2f(80, 80));
     redSquare.setFillColor(sf::Color::Transparent);
     redSquare.setPosition(window.getSize().x * 2 / 3 + 25, 500);
 }
+
+std::vector<std::string> Controller2::llenarArregloPalabras() {
+    return ::llenarArregloPalabras();
+}
+
+// Resto de la implementación de la clase Controller2, sin cambios
 
 void Controller2::run() {
     while (window.isOpen()) {
@@ -302,3 +406,5 @@ void Controller2::render() {
     organizeImages(); // Always organize and draw images
     window.display();
 }
+
+
