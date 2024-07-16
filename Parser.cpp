@@ -168,10 +168,6 @@ Node* Parser::where_clause()
     {
       return node;
     }
-    else
-    {
-      throw SyntaxError("Invalid expression around WHERE clause.");
-    }
     return node;
 }
 
@@ -194,6 +190,11 @@ Node* Parser::condition()
         consume();
         node->children.push_back(condition());
         consume();
+    }
+    else
+    {
+      throw SyntaxError("Missing or Invalid Condition.");
+
     }
     return node;
 }

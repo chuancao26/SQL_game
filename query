@@ -1,1 +1,1 @@
-SELECT dni, apellidos FROM persona WHERE dni = 1 ORDER BY name DESC
+SELECT dni, apellidos FROM persona ORDER BY name DESC
