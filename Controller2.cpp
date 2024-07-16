@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Analyzers.h"
 #include <vector>
 #include <iostream>
 #include <memory>
@@ -9,42 +10,42 @@
 // Definición de las categorías de palabras
 std::vector<std::string> palabrasTodas = {"SELECT", "*", "FROM", "producto", "nombre", 
     "descripcion", "precio", "orden", "id", "user_id", "amount", "date",
-    "persona", "apellidos", "dni", "users", "name", "age", ">", "<", "<=",
+    "persona", "apellidos", "dni", "users", "edad", ">", "<", "<=",
     ">=", "!=", "=", "ORDER", "BY", "WHERE", "ASC", "DESC", "AND", "OR", "NOT", "1", "2", 
     "3", "4", "5", "6", "7", "8", "9", "0", ";"};
 
 std::vector<std::string> palabrasReservadas = {"SELECT", "FROM", "WHERE", "ORDER", "BY", "AND", "OR", "NOT", "ASC", "DESC", "*"};
 std::vector<std::string> comparaciones = {"=", "!=", "<", ">", "<=", ">="};
 std::vector<std::string> numeros = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-std::vector<std::string> tabla1 = {"id", "name", "age", "users"};
-std::vector<std::string> tabla2 = {"nombre", "id", "precio", "descripcion", "producto"};
-std::vector<std::string> tabla3 = {"nombre", "id", "apellidos", "dni", "persona"};
+std::vector<std::string> tabla1 = {"nombre", "edad", "users"};
+std::vector<std::string> tabla2 = {"nombre", "precio", "descripcion", "producto"};
+std::vector<std::string> tabla3 = {"nombre", "apellidos", "dni", "persona"};
 std::vector<std::string> tabla4 = {"id", "user_id", "amount", "date", "orden"};
+std::string nombreTabla;
 
 // Función para llenar el arreglo palabras
 std::vector<std::string> llenarArregloPalabras() {
     std::vector<std::string> palabras;
     std::vector<std::string> tablaElegida;
-    std::string nombreTabla;
 
     // Elegir una tabla al azar
     int tablaIndex = rand() % 4;
     switch (tablaIndex) {
         case 0: 
             tablaElegida = tabla1;
-            nombreTabla = "tabla1.png";
+            nombreTabla = "img/tabla1.png";
             break;
         case 1: 
             tablaElegida = tabla2;
-            nombreTabla = "tabla2.png";
+            nombreTabla = "img/tabla2.png";
             break;
         case 2: 
             tablaElegida = tabla3;
-            nombreTabla = "tabla3.png";
+            nombreTabla = "img/tabla3.png";
             break;
         case 3: 
             tablaElegida = tabla4;
-            nombreTabla = "tabla4.png";
+            nombreTabla = "img/tabla4.png";
             break;
     }
 
@@ -76,10 +77,14 @@ std::vector<std::string> llenarArregloPalabras() {
     palabras.push_back(tablaElegida.back());
     palabras.push_back(tablaElegida.back());
 
-    // Elegir 2 palabras adicionales de la tabla elegida
-    std::random_shuffle(tablaElegida.begin(), tablaElegida.end());
-    palabras.push_back(tablaElegida[0]);
-    palabras.push_back(tablaElegida[1]);
+    std::vector<std::string> tablaElegidaSinUltima = tablaElegida;
+    tablaElegidaSinUltima.pop_back();
+
+    std::random_shuffle(tablaElegidaSinUltima.begin(), tablaElegidaSinUltima.end());
+
+    // Asegurarse de que se tomen dos elementos aleatorios de las primeras N-1 palabras
+    palabras.push_back(tablaElegidaSinUltima[0]);
+    palabras.push_back(tablaElegidaSinUltima[1]);
 
     return palabras;
 }
@@ -229,6 +234,7 @@ public:
     Controller2(sf::RenderWindow& window, int n);
     void run();
     void render();
+    Analyzer analizador;
 
 private:
     sf::RenderWindow& window;
@@ -253,7 +259,7 @@ private:
     void moveImage(int index);
     void returnImage(int index);
     void handleRedSquareClick();
-    void resultadoPalabra(const std::vector<int>& indices);
+    void resultadoPalabra2(const std::vector<int>& indices, Analyzer analizador);
     void randomizePositions();
 
     std::vector<std::string> llenarArregloPalabras();
@@ -301,9 +307,10 @@ Controller2::Controller2(sf::RenderWindow& window, int n)
         cuadrados.emplace_back(i, *imgOrdenTextures[i], *imgPalabraTextures[i], originalPos, palabras[i]);
     }
 
-    tablaTexture->loadFromFile("img/tabla.png");
+    tablaTexture->loadFromFile(nombreTabla);
     tablaSprite->setTexture(*tablaTexture);
     tablaSprite->setPosition(window.getSize().x * 2 / 3, 100);
+    tablaSprite->setScale(300.0f / tablaTexture->getSize().x, 350.0f / tablaTexture->getSize().y); // Reduce the size to half
 
     botonTexture1->loadFromFile("img/boton1.png");
     botonTexture2->loadFromFile("img/boton2.png");
@@ -391,20 +398,33 @@ void Controller2::returnImage(int index) {
 }
 
 void Controller2::handleRedSquareClick() {
-    resultadoPalabra(selectedIndices);
+    resultadoPalabra2(selectedIndices, analizador);
 }
 
-void Controller2::resultadoPalabra(const std::vector<int>& indices) {
+void Controller2::resultadoPalabra2(const std::vector<int>& indices, Analyzer analizador) {
+    string query;
+    bool status;
+    string errorMessage;
     for (int indice : indices) {
         std::cout << cuadrados[indice - 1].getPalabra() << " ";
+        query = query + cuadrados[indice - 1].getPalabra() + " ";
     }
+    if(analizador.getStatus(query))
+	{
+	  status = true;
+	}
+	else
+	{
+	  status = false;
+	  errorMessage = analizador.getMessage();
+	}
     std::cout << std::endl;
-}
+    std::cout << status << std::endl;
+    std::cout << errorMessage << std::endl;
+}   
 
 void Controller2::render() {
     window.clear();
     organizeImages(); // Always organize and draw images
     window.display();
 }
-
-
