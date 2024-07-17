@@ -231,11 +231,15 @@ vector<int> encontrarPosiciones(const vector<string>& a, vector<string>& b) {
 
 class Controller2 {
 public:
-    Controller2(sf::RenderWindow& window, int n);
+    Controller2(sf::RenderWindow& window, int n, int puntaje);
     void run();
     void render();
     Analyzer analizador;
-
+    void handleGameOver(bool isGameOver);
+    void startTimer(int seconds);
+    int drawTimer();
+    void drawPunto();
+    void drawPunto2();
 private:
     sf::RenderWindow& window;
     std::unique_ptr<sf::Texture> fondoOrdenTexture;
@@ -252,6 +256,26 @@ private:
 
     int n;
     bool transitioning;
+    int puntaje = 1000;
+    int puntoMenos = 0;
+    int puntoMas = 0;
+    bool status = false;
+    string errorMessage;
+
+    bool gameOver;
+    bool nilaIntento;
+    sf::Texture gameOverTexture;
+    sf::Sprite gameOverSprite;
+    sf::Texture correctTexture;
+    sf::Sprite correctSprite;
+    sf::Texture incorrectTexture;
+    sf::Sprite incorrectSprite;
+    sf::Clock timerClock;
+    int timerSeconds;
+    sf::Font font;
+    sf::Text timerText;
+    sf::Text timerPunto;
+
     std::vector<int> selectedIndices;
 
     void handleEvents();
@@ -265,8 +289,8 @@ private:
     std::vector<std::string> llenarArregloPalabras();
 };
 
-Controller2::Controller2(sf::RenderWindow& window, int n)
-    : window(window), n(n), transitioning(true), 
+Controller2::Controller2(sf::RenderWindow& window, int n, int puntaje=1000)
+    : window(window), n(n), transitioning(true), gameOver(false), nilaIntento(true),
       fondoOrdenTexture(std::make_unique<sf::Texture>()),
       fondoOrdenSprite(std::make_unique<sf::Sprite>()),
       tablaTexture(std::make_unique<sf::Texture>()),
@@ -321,18 +345,90 @@ Controller2::Controller2(sf::RenderWindow& window, int n)
     redSquare.setSize(sf::Vector2f(80, 80));
     redSquare.setFillColor(sf::Color::Transparent);
     redSquare.setPosition(window.getSize().x * 2 / 3 + 25, 500);
+
+    if (!font.loadFromFile("src/arial.ttf")) {
+        std::cout<<"Error con arial";
+    }
+    timerText.setFont(font);
+    timerText.setCharacterSize(24);
+    timerText.setFillColor(sf::Color::Red);
+    timerText.setPosition(window.getSize().x - 150, 10); // Top-right corner
+
+    timerPunto.setFont(font);
+    timerPunto.setCharacterSize(24);
+    timerPunto.setFillColor(sf::Color::White);
+    timerPunto.setPosition(600, 600); // Top-right corner
 }
 
 std::vector<std::string> Controller2::llenarArregloPalabras() {
     return ::llenarArregloPalabras();
+} 
+void Controller2::startTimer(int seconds) {
+    timerSeconds = seconds;
+    timerClock.restart();
 }
 
+int Controller2::drawTimer() {
+    int elapsed = timerClock.getElapsedTime().asSeconds();
+    int remaining = timerSeconds - elapsed;
+    if (remaining < 0) {
+        remaining = 0;
+    }
+    timerText.setString("Time: " + std::to_string(remaining));
+    window.draw(timerText);
+    return remaining;
+}
+
+void Controller2::drawPunto() {
+    int puntajeActual=puntaje-puntoMenos+puntoMas;
+    std::string s = std::to_string(puntajeActual);
+    timerPunto.setString("Puntaje: " + s + "\n" + errorMessage);
+    window.draw(timerPunto);
+}
+
+void Controller2::drawPunto2() {
+    int puntajeActual=puntoMas;
+    std::string s = std::to_string(puntajeActual);
+    timerPunto.setString("Puntaje: " + s + "\n" + errorMessage);
+    window.draw(timerPunto);
+}
 // Resto de la implementación de la clase Controller2, sin cambios
 
 void Controller2::run() {
+    startTimer(40); // Start a 30-second timer
     while (window.isOpen()) {
         handleEvents();
+        int remainingTime = drawTimer();
+        if (remainingTime <= 0 || gameOver) {
+            handleGameOver(true);
+        }
         render();
+    }
+}
+
+void Controller2::handleGameOver(bool isGameOver) {
+    if (isGameOver) {
+        if (!gameOverTexture.loadFromFile("img/gameOver.png")) {
+            std::cout<<"Error con gameover";
+        }
+        gameOverSprite.setTexture(gameOverTexture);
+
+        //gameOverSprite.setScale(
+        //    window.getSize().x / gameOverTexture.getSize().x,
+        //    window.getSize().y / gameOverTexture.getSize().y
+        //);
+
+        if (!correctTexture.loadFromFile("img/correct.png")) {
+            std::cout<<"Error con correct";
+        }
+        correctSprite.setTexture(correctTexture);
+
+        if (!incorrectTexture.loadFromFile("img/incorrect.png")) {
+            std::cout<<"Error con incorrect";
+        }
+        incorrectSprite.setTexture(incorrectTexture);
+
+        gameOver = true;
     }
 }
 
@@ -383,6 +479,7 @@ void Controller2::organizeImages() {
 void Controller2::moveImage(int index) {
     sf::Vector2f targetPos(100 + 100 * selectedIndices.size(), 600);
     cuadrados[index].moveToTarget(targetPos);
+    puntoMenos = puntoMenos - 7;
 }
 
 void Controller2::returnImage(int index) {
@@ -403,28 +500,55 @@ void Controller2::handleRedSquareClick() {
 
 void Controller2::resultadoPalabra2(const std::vector<int>& indices, Analyzer analizador) {
     string query;
-    bool status;
-    string errorMessage;
     for (int indice : indices) {
         std::cout << cuadrados[indice - 1].getPalabra() << " ";
         query = query + cuadrados[indice - 1].getPalabra() + " ";
-    }
+    } 
     if(analizador.getStatus(query))
 	{
-	  status = true;
+	    status = true;
+        puntoMas = puntoMas + 10 * query.size();
+        gameOver = true;
+        nilaIntento = false;
 	}
 	else
 	{
-	  status = false;
-	  errorMessage = analizador.getMessage();
+        puntaje = 0;
+	    status = false;
+	    errorMessage = analizador.getMessage();
+        gameOver = true;
+        nilaIntento = false;
 	}
     std::cout << std::endl;
     std::cout << status << std::endl;
     std::cout << errorMessage << std::endl;
+    //std::cout << puntaje << std::endl;
 }   
 
 void Controller2::render() {
     window.clear();
-    organizeImages(); // Always organize and draw images
+    if (gameOver) {
+        //sf::RectangleShape blackRect(sf::Vector2f(window.getSize().x, window.getSize().y));
+        //blackRect.setFillColor(sf::Color::Black);
+        //window.draw(blackRect);
+        window.draw(gameOverSprite);
+
+        if (status){
+            window.draw(correctSprite);
+        }
+        else {
+            window.draw(incorrectSprite);
+        }
+
+        if (!nilaIntento){
+            drawPunto();
+        }
+        else{
+            drawPunto2();
+        }
+    } else {
+        organizeImages();
+        drawTimer();
+    }
     window.display();
 }

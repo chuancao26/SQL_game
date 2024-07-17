@@ -31,7 +31,8 @@ Controller::Controller(): camarero(1280, 720, font), ganaste(false)
     } else {
         salirButton = Button(salirTexture, 500.f, 540.f, GameState::Salir);
     }
-    level2 = std::make_unique<Controller2>(view.window,4);
+
+    level2 = std::make_unique<Controller2>(view.window, 4, 1000);
 
 }
 void Controller::update()
