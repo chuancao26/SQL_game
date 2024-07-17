@@ -395,7 +395,7 @@ void Controller2::drawPunto2() {
 // Resto de la implementación de la clase Controller2, sin cambios
 
 void Controller2::run() {
-    startTimer(40); // Start a 30-second timer
+    startTimer(59); // Start a 30-second timer
     while (window.isOpen()) {
         handleEvents();
         int remainingTime = drawTimer();
